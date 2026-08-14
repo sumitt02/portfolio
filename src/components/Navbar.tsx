@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -45,33 +46,33 @@ export function Navbar() {
             }
             aria-label="Primary"
           >
-            <a
-              href="#top"
+            <Link
+              href="/#top"
               className="font-semibold tracking-tight text-foreground"
             >
               {profile.name}
-            </a>
+            </Link>
 
             <div className="hidden items-center gap-8 md:flex">
               {nav.map((item) => (
-                <a
+                <Link
                   key={item.href}
                   href={item.href}
                   className="text-sm text-muted transition-colors duration-200 hover:text-foreground"
                 >
                   {item.label}
-                </a>
+                </Link>
               ))}
             </div>
 
             <div className="hidden items-center gap-3 md:flex">
               <ThemeToggle />
-              <a
-                href="#contact"
+              <Link
+                href="/#contact"
                 className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-opacity duration-200 hover:opacity-90"
               >
                 Let&apos;s Talk
-              </a>
+              </Link>
             </div>
 
             <div className="flex items-center gap-2 md:hidden">
@@ -102,22 +103,22 @@ export function Navbar() {
             <Container>
               <div className="flex flex-col gap-1 py-4">
                 {nav.map((item) => (
-                  <a
+                  <Link
                     key={item.href}
                     href={item.href}
                     onClick={() => setOpen(false)}
                     className="rounded-lg px-3 py-3 text-base text-foreground transition-colors duration-200 hover:bg-surface"
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 ))}
-                <a
-                  href="#contact"
+                <Link
+                  href="/#contact"
                   onClick={() => setOpen(false)}
                   className="mt-2 rounded-full bg-foreground px-5 py-3 text-center text-sm font-medium text-background"
                 >
                   Let&apos;s Talk
-                </a>
+                </Link>
               </div>
             </Container>
           </motion.div>

@@ -16,17 +16,19 @@ export const profile = {
 
 export const social = {
   email: `mailto:${profile.email}`,
-  // Not provided in source resume — intentionally left null rather than invented.
-  linkedin: null as string | null,
-  github: null as string | null,
+  linkedin: "https://www.linkedin.com/in/sumit-singh-94ab12279/",
+  github: "https://github.com/sumitt02",
 };
 
+// Anchors are prefixed with "/" so they always resolve to the homepage
+// section first, even when clicked from a project detail page — a bare
+// "#work" just appends the hash to whatever page you're already on.
 export const nav = [
-  { label: "Work", href: "#work" },
-  { label: "Experience", href: "#experience" },
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Contact", href: "#contact" },
+  { label: "Work", href: "/#work" },
+  { label: "Experience", href: "/#experience" },
+  { label: "About", href: "/#about" },
+  { label: "Skills", href: "/#skills" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 // ---------------------------------------------------------------------------
@@ -206,8 +208,8 @@ export const projects: Project[] = [
       { label: "Dedup", detail: "MD5-based duplicate detection" },
     ],
     workflow: ["Upload", "Process", "Score", "Compare"],
-    repoUrl: null,
-    liveUrl: null,
+    repoUrl: "https://github.com/sumitt02/AI-RESUME-SCREENER",
+    liveUrl: "https://ai-resume-screener-hazel.vercel.app/",
   },
   {
     slug: "clinic-management-system",
@@ -228,6 +230,9 @@ export const projects: Project[] = [
       { label: "Realtime", detail: "Live-updating token queue" },
     ],
     workflow: ["Reception", "Patient Registration", "Token Queue", "Doctor", "Records / Billing"],
+    // The resume's hyperlink for this repo is truncated at
+    // "github.com/sumitt02/clinic-management-" (missing the rest of the
+    // slug) — left null rather than guessing the real repo name.
     repoUrl: null,
     liveUrl: null,
   },

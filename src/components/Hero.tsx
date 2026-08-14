@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { HeroArchitecture } from "@/components/HeroArchitecture";
 import { profile } from "@/lib/data";
@@ -51,8 +52,8 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.24, ease: easeOut }}
               className="mt-10 flex flex-wrap items-center gap-4"
             >
-              <a
-                href="#work"
+              <Link
+                href="/#work"
                 className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-sm font-medium text-background transition-transform duration-200 hover:-translate-y-0.5"
               >
                 View My Work
@@ -60,13 +61,13 @@ export function Hero() {
                   size={16}
                   className="transition-transform duration-200 group-hover:translate-x-0.5"
                 />
-              </a>
-              <a
-                href="#contact"
+              </Link>
+              <Link
+                href="/#contact"
                 className="inline-flex items-center gap-2 rounded-full border border-border-strong px-6 py-3.5 text-sm font-medium text-foreground transition-colors duration-200 hover:border-accent-line hover:bg-accent-dim"
               >
                 Let&apos;s Connect
-              </a>
+              </Link>
             </motion.div>
 
             <motion.div
