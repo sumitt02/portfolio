@@ -1,18 +1,30 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Anton, Manrope, Mrs_Saint_Delafield } from "next/font/google";
 import "./globals.css";
 import { SITE_URL } from "@/lib/site";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import { Cursor } from "@/components/motion/Cursor";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// Ultra-condensed display face for the giant hero / section words.
+const anton = Anton({
+  variable: "--font-anton",
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+// Handwritten signature used for the logo mark.
+const signature = Mrs_Saint_Delafield({
+  variable: "--font-signature",
+  weight: "400",
   subsets: ["latin"],
   display: "swap",
 });
@@ -60,28 +72,16 @@ export const metadata: Metadata = {
   },
 };
 
-const themeInitScript = `
-(function () {
-  try {
-    var stored = window.localStorage.getItem('theme');
-    if (stored === 'light') {
-      document.documentElement.classList.add('light');
-    }
-  } catch (e) {}
-})();
-`;
-
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${manrope.variable} ${anton.variable} ${signature.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-      </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <SmoothScroll />
+        <Cursor />
         <Navbar />
         {children}
         <Footer />

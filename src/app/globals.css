@@ -1,44 +1,42 @@
 @import "tailwindcss";
 
-/* Tailwind v4 class-based dark mode (default theme is dark; .light overrides) */
-@custom-variant dark (&:where(.dark, .dark *));
-
+/*
+ * Palette: one cream "paper" section (the hero), everything else near-black
+ * with a single warm-gold accent. Older component tokens (surface, muted,
+ * accent…) are kept and remapped so the project detail pages pick up the
+ * new look without a rewrite.
+ */
 :root {
-  --background: #08090b;
-  --surface: #101216;
-  --surface-raised: #14161b;
+  --cream: #f2eae1;
+  --ink: #0d0d0d;
+  --black: #000000;
+  --night: #0a0a0a;
+  --surface: #111111;
+  --surface-raised: #161616;
+  --gold: #c9b27c;
+  --gold-soft: rgba(201, 178, 124, 0.14);
+  --gold-line: rgba(201, 178, 124, 0.4);
+
+  --background: var(--night);
   --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.14);
-  --foreground: #f5f7fa;
-  --muted: #9ca3af;
-  --muted-2: #6b7280;
-  --accent: #4f6dff;
-  --accent-strong: #7089ff;
-  --accent-dim: rgba(79, 109, 255, 0.12);
-  --accent-line: rgba(79, 109, 255, 0.35);
-  --success: #34d399;
-
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-.light {
-  --background: #fafafc;
-  --surface: #ffffff;
-  --surface-raised: #ffffff;
-  --border: rgba(9, 10, 12, 0.08);
-  --border-strong: rgba(9, 10, 12, 0.14);
-  --foreground: #0b0c0e;
-  --muted: #5b616e;
-  --muted-2: #80858f;
-  --accent: #3355f0;
-  --accent-strong: #2544d1;
-  --accent-dim: rgba(51, 85, 240, 0.08);
-  --accent-line: rgba(51, 85, 240, 0.3);
-  --success: #0f9d68;
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --foreground: #f5f2ec;
+  --muted: #a8a29a;
+  --muted-2: #6f6a63;
+  --accent: var(--gold);
+  --accent-strong: #dcc898;
+  --accent-dim: var(--gold-soft);
+  --accent-line: var(--gold-line);
+  --success: #9bcf8a;
 }
 
 @theme inline {
+  --color-cream: var(--cream);
+  --color-ink: var(--ink);
+  --color-night: var(--night);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-gold-line: var(--gold-line);
   --color-background: var(--background);
   --color-surface: var(--surface);
   --color-surface-raised: var(--surface-raised);
@@ -52,8 +50,11 @@
   --color-accent-dim: var(--accent-dim);
   --color-accent-line: var(--accent-line);
   --color-success: var(--success);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
+
+  --font-sans: var(--font-manrope);
+  --font-display: var(--font-anton);
+  --font-script: var(--font-signature);
+  --font-mono: var(--font-manrope);
 }
 
 * {
@@ -61,60 +62,83 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  background: var(--night);
+}
+
+/* Lenis owns smooth scrolling; native smooth-scroll would fight it. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 body {
-  background: var(--background);
+  background: var(--night);
   color: var(--foreground);
-  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
 ::selection {
-  background: var(--accent-dim);
-  color: var(--foreground);
+  background: var(--gold);
+  color: var(--ink);
 }
 
-/* Focus visibility for keyboard nav */
 :focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
   border-radius: 2px;
 }
 
-.font-mono-tech {
-  font-family: var(--font-mono), ui-monospace, monospace;
+/* Hide the system cursor only when the custom one is active (fine pointers). */
+@media (hover: hover) and (pointer: fine) {
+  html.has-cursor,
+  html.has-cursor * {
+    cursor: none !important;
+  }
 }
 
-/* Subtle noise-free grid backdrop used behind hero / section dividers */
-.bg-grid {
-  background-image:
-    linear-gradient(to right, var(--border) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
-  background-size: 64px 64px;
+.font-mono-tech {
+  font-family: var(--font-manrope), ui-sans-serif, sans-serif;
+  letter-spacing: 0.04em;
+}
+
+.eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
 }
 
 .text-balance {
   text-wrap: balance;
 }
 
-/* horizontal scroll strip: hide scrollbar but keep it scrollable */
+/* Faint 1px grid behind dark sections */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 96px 96px;
+}
+
+/* Film-grain overlay used on cards */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
 .no-scrollbar {
   scrollbar-width: none;
 }
@@ -122,28 +146,66 @@ body {
   display: none;
 }
 
-/* Hero architecture diagram: animated "data flow" along connector lines */
+/* Workflow strip connector animation (project pages) */
 .flow-line {
   stroke-dasharray: 5 7;
   animation: dash-flow 2.4s linear infinite;
 }
-
 @keyframes dash-flow {
   to {
     stroke-dashoffset: -24;
   }
 }
 
-/* Tech stack marquee */
+/* Infinite marquee */
 .animate-marquee {
-  animation: marquee 34s linear infinite;
+  animation: marquee 30s linear infinite;
 }
-
+.animate-marquee-reverse {
+  animation: marquee 38s linear infinite reverse;
+}
 @keyframes marquee {
   from {
     transform: translateX(0);
   }
   to {
     transform: translateX(-50%);
+  }
+}
+
+/* Rotating circular text badge */
+.animate-spin-slow {
+  animation: spin 14s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Gentle bob for the scroll cue */
+.animate-scroll-cue {
+  animation: scroll-cue 1.8s ease-in-out infinite;
+}
+@keyframes scroll-cue {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(6px);
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -1,28 +1,20 @@
-import { Hero } from "@/components/Hero";
-import { TechStrip } from "@/components/TechStrip";
-import { FeaturedWork } from "@/components/FeaturedWork";
-import { Experience } from "@/components/Experience";
-import { SystemArchitecture } from "@/components/SystemArchitecture";
-import { EngineeringPrinciples } from "@/components/EngineeringPrinciples";
-import { Skills } from "@/components/Skills";
-import { Education } from "@/components/Education";
-import { Certifications } from "@/components/Certifications";
-import { About } from "@/components/About";
-import { Contact } from "@/components/Contact";
+import { Preloader } from "@/components/motion/Preloader";
+import { Hero } from "@/components/sections/Hero";
+import { About } from "@/components/sections/About";
+import { Experience } from "@/components/sections/Experience";
+import { Expertise } from "@/components/sections/Expertise";
+import { Work } from "@/components/sections/Work";
+import { Contact } from "@/components/sections/Contact";
 
 export default function Home() {
   return (
     <main>
+      <Preloader />
       <Hero />
-      <TechStrip />
-      <FeaturedWork />
-      <Experience />
-      <SystemArchitecture />
-      <EngineeringPrinciples />
-      <Skills />
-      <Education />
-      <Certifications />
       <About />
+      <Experience />
+      <Expertise />
+      <Work />
       <Contact />
     </main>
   );

@@ -25,9 +25,9 @@ export const social = {
 // "#work" just appends the hash to whatever page you're already on.
 export const nav = [
   { label: "Work", href: "/#work" },
-  { label: "Experience", href: "/#experience" },
   { label: "About", href: "/#about" },
-  { label: "Skills", href: "/#skills" },
+  { label: "Experience", href: "/#experience" },
+  { label: "Expertise", href: "/#expertise" },
   { label: "Contact", href: "/#contact" },
 ];
 
@@ -139,6 +139,12 @@ export type Project = {
   flagship?: boolean;
   name: string;
   year: string;
+  /** Short label shown on the card eyebrow, e.g. "Full-Stack" or "Frontend". */
+  kind: string;
+  /** Optional status chip, e.g. "In progress". */
+  status?: string;
+  /** Which illustrated mockup to render on the work card. */
+  visual: "crm" | "screener" | "clinic" | "tv" | "photo";
   oneLiner: string;
   description: string;
   stack: string[];
@@ -154,6 +160,8 @@ export const projects: Project[] = [
     flagship: true,
     name: "Enterprise CRM Platform",
     year: "2026",
+    kind: "Full-Stack",
+    visual: "crm",
     oneLiner:
       "A large-scale, role-based CRM built for production use — from schema to background workers.",
     description:
@@ -189,6 +197,8 @@ export const projects: Project[] = [
     slug: "ai-resume-screener",
     name: "AI Resume Screener",
     year: "April 2026",
+    kind: "Full-Stack · AI",
+    visual: "screener",
     oneLiner: "A two-sided SaaS for recruiters and candidates with parallel resume processing.",
     description:
       "A two-sided SaaS platform for recruiters and candidates. Recruiters bulk-upload PDF resumes, which are processed in parallel by Celery workers and scored against job requirements using the OpenAI API, then reviewed side-by-side in a comparison dashboard.",
@@ -215,6 +225,8 @@ export const projects: Project[] = [
     slug: "clinic-management-system",
     name: "Clinic Management System",
     year: "2025",
+    kind: "Full-Stack",
+    visual: "clinic",
     oneLiner: "Role-based clinic workflow for receptionists and doctors, with live token queuing.",
     description:
       "A role-based clinic management system with separate authentication flows and dashboards for doctors and receptionists — covering patient registration, live-updating token queues, billing, and patient records behind protected, validated APIs.",
@@ -233,6 +245,46 @@ export const projects: Project[] = [
     // The resume's hyperlink for this repo is truncated at
     // "github.com/sumitt02/clinic-management-" (missing the rest of the
     // slug) — left null rather than guessing the real repo name.
+    repoUrl: null,
+    liveUrl: null,
+  },
+  // The client for this project is intentionally not named on the site.
+  {
+    slug: "tv-entertainment-app",
+    name: "TV Entertainment App",
+    year: "Shipped",
+    kind: "Frontend",
+    visual: "tv",
+    oneLiner:
+      "The frontend of a consumer app for one of India's largest TV service providers.",
+    description:
+      "Built the frontend of a consumer-facing app for a major Indian TV service provider (client name withheld) — the interface its subscribers use every day.",
+    stack: ["Frontend", "Consumer App"],
+    highlights: [
+      { label: "Client", detail: "Major Indian TV service provider (name withheld)" },
+      { label: "Scope", detail: "Frontend of the consumer app" },
+      { label: "Audience", detail: "The provider's subscribers" },
+    ],
+    repoUrl: null,
+    liveUrl: null,
+  },
+  {
+    slug: "photography-studio-app",
+    name: "Photography Studio App & Website",
+    year: "2026",
+    kind: "Mobile + Web",
+    status: "In progress",
+    visual: "photo",
+    oneLiner:
+      "A mobile app and website for a photography company — currently in the making.",
+    description:
+      "Currently building a mobile app and a companion website for a photography company. The website showcases the studio's work to new clients, while the mobile app gives customers a dedicated experience on their phones.",
+    stack: ["Mobile App", "Website"],
+    highlights: [
+      { label: "Client", detail: "Photography company" },
+      { label: "Scope", detail: "Mobile app + marketing website" },
+      { label: "Status", detail: "In progress" },
+    ],
     repoUrl: null,
     liveUrl: null,
   },

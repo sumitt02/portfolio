@@ -1,129 +1,104 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Container } from "@/components/ui/Container";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { nav, profile } from "@/lib/data";
+import { nav, profile, social } from "@/lib/data";
 
+/**
+ * Fixed top bar rendered with mix-blend-difference so the same white marks
+ * read as ink on the cream hero and as white on the dark sections.
+ */
 export function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    function onScroll() {
-      setScrolled(window.scrollY > 24);
-    }
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
+    const lenis = (window as unknown as { __lenis?: { stop(): void; start(): void } }).__lenis;
+    if (open) lenis?.stop();
+    else lenis?.start();
     document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
-      <div
-        className={
-          "transition-all duration-300 " +
-          (scrolled
-            ? "border-b border-border bg-background/80 backdrop-blur-lg"
-            : "border-b border-transparent bg-transparent")
-        }
-      >
-        <Container>
-          <nav
-            className={
-              "flex items-center justify-between transition-all duration-300 " +
-              (scrolled ? "h-16" : "h-20")
-            }
-            aria-label="Primary"
-          >
-            <Link
-              href="/#top"
-              className="font-semibold tracking-tight text-foreground"
-            >
-              {profile.name}
-            </Link>
+    <>
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-[60] text-white mix-blend-difference">
+        <nav
+          aria-label="Primary"
+          className="pointer-events-auto mx-auto flex h-20 items-center justify-between px-5 sm:px-10"
+        >
+          <Link href="/#top" className="font-script text-4xl leading-none" aria-label={`${profile.name} — home`}>
+            {profile.name.split(" ")[0]}
+          </Link>
 
-            <div className="hidden items-center gap-8 md:flex">
-              {nav.map((item) => (
+          <ul className="hidden items-center gap-10 md:flex">
+            {nav.map((item) => (
+              <li key={item.href}>
                 <Link
-                  key={item.href}
                   href={item.href}
-                  className="text-sm text-muted transition-colors duration-200 hover:text-foreground"
+                  className="group relative text-xs font-bold uppercase tracking-[0.14em]"
                 >
                   {item.label}
+                  <span className="absolute -bottom-1 left-0 h-px w-full origin-right scale-x-0 bg-current transition-transform duration-300 group-hover:origin-left group-hover:scale-x-100" />
                 </Link>
-              ))}
-            </div>
+              </li>
+            ))}
+          </ul>
 
-            <div className="hidden items-center gap-3 md:flex">
-              <ThemeToggle />
-              <Link
-                href="/#contact"
-                className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-opacity duration-200 hover:opacity-90"
-              >
-                Let&apos;s Talk
-              </Link>
-            </div>
-
-            <div className="flex items-center gap-2 md:hidden">
-              <ThemeToggle />
-              <button
-                type="button"
-                aria-label={open ? "Close menu" : "Open menu"}
-                aria-expanded={open}
-                onClick={() => setOpen((v) => !v)}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground"
-              >
-                {open ? <X size={18} /> : <Menu size={18} />}
-              </button>
-            </div>
-          </nav>
-        </Container>
-      </div>
+          <button
+            type="button"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+            className="group flex h-10 w-10 flex-col items-end justify-center gap-[5px]"
+          >
+            <span className={`h-[2px] bg-current transition-all duration-300 ${open ? "w-6 translate-y-[7px] rotate-45" : "w-6"}`} />
+            <span className={`h-[2px] bg-current transition-all duration-300 ${open ? "w-0 opacity-0" : "w-4 group-hover:w-6"}`} />
+            <span className={`h-[2px] bg-current transition-all duration-300 ${open ? "w-6 -translate-y-[7px] -rotate-45" : "w-5 group-hover:w-6"}`} />
+          </button>
+        </nav>
+      </header>
 
       <AnimatePresence>
         {open ? (
           <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="border-b border-border bg-background/95 backdrop-blur-lg md:hidden"
+            initial={{ clipPath: "circle(0% at calc(100% - 3.5rem) 2.5rem)" }}
+            animate={{ clipPath: "circle(150% at calc(100% - 3.5rem) 2.5rem)" }}
+            exit={{ clipPath: "circle(0% at calc(100% - 3.5rem) 2.5rem)" }}
+            transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
+            className="fixed inset-0 z-[55] flex flex-col justify-between bg-night px-5 pb-8 pt-28 sm:px-10"
           >
-            <Container>
-              <div className="flex flex-col gap-1 py-4">
-                {nav.map((item) => (
+            <ul className="flex flex-col gap-1">
+              {nav.map((item, i) => (
+                <motion.li
+                  key={item.href}
+                  initial={{ y: 40, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.25 + i * 0.06, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                >
                   <Link
-                    key={item.href}
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="rounded-lg px-3 py-3 text-base text-foreground transition-colors duration-200 hover:bg-surface"
+                    className="group flex items-baseline gap-4 font-display text-6xl uppercase leading-[1.05] text-foreground transition-colors hover:text-gold sm:text-8xl"
                   >
+                    <span className="text-xs font-sans font-bold tracking-[0.2em] text-gold">0{i + 1}</span>
                     {item.label}
                   </Link>
-                ))}
-                <Link
-                  href="/#contact"
-                  onClick={() => setOpen(false)}
-                  className="mt-2 rounded-full bg-foreground px-5 py-3 text-center text-sm font-medium text-background"
-                >
-                  Let&apos;s Talk
-                </Link>
+                </motion.li>
+              ))}
+            </ul>
+            <div className="flex flex-wrap items-end justify-between gap-6 text-xs font-semibold uppercase tracking-[0.16em] text-muted">
+              <a href={social.email} className="hover:text-gold">{profile.email}</a>
+              <div className="flex gap-6">
+                <a href={social.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-gold">LinkedIn</a>
+                <a href={social.github} target="_blank" rel="noopener noreferrer" className="hover:text-gold">GitHub</a>
               </div>
-            </Container>
+            </div>
           </motion.div>
         ) : null}
       </AnimatePresence>
-    </header>
+    </>
   );
 }

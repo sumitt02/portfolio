@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Pill } from "@/components/ui/Pill";
-import { CRMPreview } from "@/components/CRMPreview";
+import { ProjectMockup } from "@/components/work/Mockups";
 import { WorkflowStrip } from "@/components/WorkflowStrip";
 import { SocialLink } from "@/components/ui/SocialLink";
 import { projects } from "@/lib/data";
@@ -52,11 +52,12 @@ export default async function ProjectPage({
         </Link>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
-          <Pill tone="accent">{project.flagship ? "Featured Project" : "Project"}</Pill>
+          <Pill tone="accent">{project.kind}</Pill>
+          {project.status ? <Pill tone="accent">{project.status}</Pill> : null}
           <span className="font-mono-tech text-xs text-muted-2">{project.year}</span>
         </div>
 
-        <h1 className="mt-5 text-balance text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
+        <h1 className="mt-5 text-balance text-4xl font-bold tracking-[-0.03em] text-foreground sm:text-6xl">
           {project.name}
         </h1>
         <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted">{project.description}</p>
@@ -67,11 +68,15 @@ export default async function ProjectPage({
           ))}
         </div>
 
-        {project.slug === "enterprise-crm-platform" ? (
-          <div className="mt-12">
-            <CRMPreview />
+        <div className="relative mt-12 flex justify-center overflow-hidden rounded-2xl border border-border bg-[#121212] px-6 py-12 sm:px-12">
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(201,178,124,0.16),transparent_60%)]"
+          />
+          <div className="relative w-full [&>*]:mx-auto">
+            <ProjectMockup visual={project.visual} />
           </div>
-        ) : null}
+        </div>
 
         {project.workflow ? (
           <div className="mt-12">
@@ -106,7 +111,9 @@ export default async function ProjectPage({
               ? "Links below."
               : project.flagship
                 ? "This is a production system built for an employer and isn't publicly hosted, so there's no public repo or live demo to link to."
-                : "No public repository or live demo is linked for this project yet."}
+                : project.status
+                  ? "This project is still being built — links will follow once it launches."
+                  : "This was client work, so there's no public repo or live demo to link to."}
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <SocialLink href={project.liveUrl}>Live demo</SocialLink>
