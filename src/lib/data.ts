@@ -142,7 +142,7 @@ export type Project = {
   /** Optional status chip, e.g. "In progress". */
   status?: string;
   /** Which illustrated mockup to render on the work card. */
-  visual: "crm" | "screener" | "clinic" | "tv" | "photo";
+  visual: "crm" | "screener" | "remastly" | "tv" | "photo";
   oneLiner: string;
   description: string;
   stack: string[];
@@ -220,49 +220,114 @@ export const projects: Project[] = [
     liveUrl: "https://ai-resume-screener-hazel.vercel.app/",
   },
   {
-    slug: "clinic-management-system",
-    name: "Clinic Management System",
-    year: "2025",
-    kind: "Full-Stack",
-    visual: "clinic",
-    oneLiner: "Software for a clinic's front desk and its doctors, with a live token queue.",
+    slug: "remastly",
+    name: "Remastly",
+    year: "2026",
+    kind: "Full-Stack · AI",
+    visual: "remastly",
+    oneLiner:
+      "Give it any website and it finds what's wrong, rebuilds it as a better version, and hosts it.",
     description:
-      "A clinic management system with separate logins and dashboards for doctors and receptionists. It handles patient registration, a token queue that updates live, billing and patient records, all behind protected APIs with proper form validation.",
-    stack: ["React", "Node.js", "Express", "MongoDB", "JWT"],
-    highlights: [
-      { label: "Roles", detail: "Doctor and Receptionist roles, separate auth flows" },
-      { label: "Dashboards", detail: "Role-specific dashboards" },
-      { label: "Core flows", detail: "Patient registration, token queuing, billing, records" },
-      { label: "Architecture", detail: "RESTful APIs on an MVC architecture" },
-      { label: "Data layer", detail: "Mongoose schemas" },
-      { label: "Auth", detail: "JWT middleware, protected routes" },
-      { label: "Validation", detail: "Form validation" },
-      { label: "Realtime", detail: "Live-updating token queue" },
+      "Remastly takes an existing website, works out what's wrong with it, rebuilds it as a cleaner version and puts it live. It crawls the site and audits it, recreates it from what the browser actually renders, checks the copy against the original page by page so nothing breaks in the move, then hosts it. There's also a build mode where you describe a business in plain words and an AI agent designs, codes, tests and fixes a whole site.",
+    stack: [
+      "React",
+      "Node.js",
+      "Express",
+      "SQLite",
+      "Playwright",
+      "Lighthouse",
+      "Docker",
+      "nginx",
+      "Let's Encrypt",
+      "Claude API",
     ],
-    workflow: ["Reception", "Patient Registration", "Token Queue", "Doctor", "Records / Billing"],
-    // The resume's hyperlink for this repo is truncated at
-    // "github.com/sumitt02/clinic-management-" (missing the rest of the
-    // slug) — left null rather than guessing the real repo name.
+    highlights: [
+      {
+        label: "Check",
+        detail:
+          "Crawls the site and runs Lighthouse, accessibility (axe), SEO and broken-link checks, and detects what it was built on (Wix, Webflow, WordPress, Framer and others)",
+      },
+      {
+        label: "Rebuild",
+        detail:
+          "Recreates the site from the rendered page as plain HTML, React + Vite, Next.js or MERN, strips the builder code and fixes SEO, accessibility and image problems automatically",
+      },
+      {
+        label: "Compare",
+        detail:
+          "Visual diffs page by page, plus replayed hovers, clicks and animations, so the new copy behaves like the original",
+      },
+      {
+        label: "Host",
+        detail:
+          "Goes live on Remastly's own servers with automatic HTTPS, or to Netlify in one click, and every version can be rolled back",
+      },
+      {
+        label: "Old backends",
+        detail: "Logins and APIs from the old site keep working through pass-through or Docker containers",
+      },
+      {
+        label: "Build mode",
+        detail: "Describe a business in plain words and a Claude-powered agent designs, codes, tests and fixes a full website",
+      },
+    ],
+    workflow: ["Check", "Rebuild", "Compare", "Host"],
     repoUrl: null,
     liveUrl: null,
   },
-  // The client for this project is intentionally not named on the site.
+  // The client for this project is intentionally not named anywhere on the
+  // site (copy, stack or mockup). The slug is kept so old links still work.
   {
     slug: "tv-entertainment-app",
-    name: "TV Entertainment App",
+    name: "TV Subscriber App",
     year: "Shipped",
-    kind: "Frontend",
+    kind: "Mobile · Flutter",
     visual: "tv",
     oneLiner:
-      "The frontend of a consumer app for one of India's largest TV service providers.",
+      "The iOS and Android app a big Indian TV provider's subscribers use to recharge, manage packs and get help.",
     description:
-      "I built the frontend of the app that subscribers of a major Indian TV provider use every day. I can't name the client here.",
-    stack: ["Frontend", "Consumer App"],
-    highlights: [
-      { label: "Client", detail: "Major Indian TV service provider (name withheld)" },
-      { label: "Scope", detail: "Frontend of the consumer app" },
-      { label: "Audience", detail: "The provider's subscribers" },
+      "I work on the subscriber app for one of India's largest TV providers (I can't name the client here). It's a Flutter app on iOS and Android that people use to recharge, manage their packs and get support. I moved it over to a new design system screen by screen on a BLoC architecture, hooked every screen up to the live backend, and built the Phase 2 support and payments features. Along the way I added screenshot (golden) tests and a CI check that stops new analyzer warnings from sneaking in.",
+    stack: [
+      "Flutter",
+      "Dart",
+      "flutter_bloc",
+      "Juspay HyperSDK",
+      "CleverTap",
+      "REST (encrypted payloads)",
+      "Golden + unit tests",
+      "GitHub CI",
     ],
+    highlights: [
+      {
+        label: "Recharge & payments",
+        detail:
+          "Juspay checkout with one-tap QuickPay and offers, plus recovery for when iOS kills the payment screen in the background",
+      },
+      {
+        label: "Packs",
+        detail:
+          "Pack explorer, an AI-assisted pack builder, Flexi packs, and adding or removing channels with live pricing",
+      },
+      {
+        label: "Box upgrades",
+        detail: "HD and Android box upgrades, and a native new-connection booking flow with in-app payment",
+      },
+      {
+        label: "Get Help",
+        detail: "Guided troubleshooting, reporting a transaction, escalation, a dealer locator and relocation booking",
+      },
+      {
+        label: "Account",
+        detail: "Changing the registered mobile number with OTP, plus linked and Multi-TV connections",
+      },
+      { label: "Languages", detail: "Hindi and English, tested so longer text doesn't overflow" },
+      { label: "Architecture", detail: "Ported screen by screen to a new design system on BLoC" },
+      {
+        label: "Quality",
+        detail: "Golden screenshot tests, unit tests, and a CI gate on new analyzer warnings",
+      },
+    ],
+    workflow: ["Recharge", "Packs", "Box upgrade", "Get Help"],
     repoUrl: null,
     liveUrl: null,
   },

@@ -151,11 +151,18 @@ export function Work() {
       <div className="mx-auto max-w-[1360px] px-3 pb-32 sm:px-10">
         {projects.map((p, i) => (
           <div key={p.slug} className="mb-6 last:mb-0 lg:sticky lg:top-[8vh] lg:mb-[10vh]">
-            <Link
-              href={`/work/${p.slug}`}
-              data-cursor-label="View"
-              className="work-card group relative grid origin-top lg:min-h-[78vh] grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-[#121212] grain lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]"
-            >
+            <div className="work-card group relative grid origin-top lg:min-h-[78vh] grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-[#121212] grain lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+              {/* The whole card opens the case study. It's an overlay rather than a
+                  wrapper so the live/source links below can be real links too
+                  (links can't be nested). The text column lets clicks fall
+                  through to it, except on those links. */}
+              <Link
+                href={`/work/${p.slug}`}
+                aria-label={`View case study: ${p.name}`}
+                data-cursor-label="View"
+                className="absolute inset-0 z-[5] rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-gold"
+              />
+
               {/* big ghost word */}
               <span
                 aria-hidden
@@ -164,7 +171,7 @@ export function Work() {
                 {String(i + 1).padStart(2, "0")}
               </span>
 
-              <div className="relative z-10 flex flex-col justify-between gap-10 p-6 sm:p-10 lg:p-14">
+              <div className="pointer-events-none relative z-10 flex flex-col justify-between gap-10 p-6 sm:p-10 lg:p-14">
                 <div>
                   <div className="flex flex-wrap items-center gap-3">
                     <span aria-hidden className="h-px w-10 bg-gold/60" />
@@ -192,8 +199,34 @@ export function Work() {
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-6">
-                    <span className="text-xs font-bold uppercase tracking-[0.18em] text-muted">{p.year}</span>
+                  <div className="mt-8 flex items-center justify-between gap-4 border-t border-white/10 pt-6">
+                    <div className="flex flex-col items-start gap-4">
+                      <span className="text-xs font-bold uppercase tracking-[0.18em] text-muted">{p.year}</span>
+                      {p.liveUrl || p.repoUrl ? (
+                        <div className="pointer-events-auto flex flex-wrap gap-2">
+                          {p.liveUrl ? (
+                            <a
+                              href={p.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 rounded-full bg-gold px-4 py-2 text-xs font-bold uppercase tracking-[0.12em] text-black transition-colors hover:bg-foreground"
+                            >
+                              Live demo <span aria-hidden>↗</span>
+                            </a>
+                          ) : null}
+                          {p.repoUrl ? (
+                            <a
+                              href={p.repoUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 rounded-full border border-white/20 px-4 py-2 text-xs font-bold uppercase tracking-[0.12em] text-foreground transition-colors hover:border-gold hover:text-gold"
+                            >
+                              Source code <span aria-hidden>↗</span>
+                            </a>
+                          ) : null}
+                        </div>
+                      ) : null}
+                    </div>
                     <RotatingBadge
                       text="VIEW PROJECT • CASE STUDY • "
                       size={92}
@@ -216,7 +249,7 @@ export function Work() {
 
               {/* dims the card as the next one stacks over it (see useGSAP) */}
               <span aria-hidden className="work-shade pointer-events-none absolute inset-0 z-20 bg-black opacity-0" />
-            </Link>
+            </div>
           </div>
         ))}
       </div>

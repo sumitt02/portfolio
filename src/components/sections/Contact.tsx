@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -20,7 +20,6 @@ const channels = [
 
 export function Contact() {
   const root = useRef<HTMLElement>(null);
-  const [sent, setSent] = useState(false);
 
   useGSAP(
     () => {
@@ -47,19 +46,6 @@ export function Contact() {
     },
     { scope: root },
   );
-
-  // No backend: compose the message in the visitor's own mail client.
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const name = String(data.get("name") || "").trim();
-    const email = String(data.get("email") || "").trim();
-    const message = String(data.get("message") || "").trim();
-    const subject = encodeURIComponent(`Portfolio enquiry from ${name || "a visitor"}`);
-    const body = encodeURIComponent(`${message}\n\nThanks,\n${name}${email ? ` (${email})` : ""}`);
-    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
-    setSent(true);
-  }
 
   return (
     <section ref={root} id="contact" className="relative overflow-hidden bg-black py-24 md:py-36">
@@ -88,88 +74,49 @@ export function Contact() {
             </span>
           </h2>
           <p className="contact-fade mt-6 max-w-md text-base leading-relaxed text-muted">
-            Got an idea, a tricky problem, or a role you think I&apos;d be good for? Send me a message and I&apos;ll
-            get back to you.
+            Got an idea, a tricky problem, or a role you think I&apos;d be good for? Reach out on any of these
+            and I&apos;ll get back to you.
           </p>
-
-          <ul className="mt-10 flex max-w-md flex-col gap-3">
-            {channels.map((c) => {
-              const inner = (
-                <>
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-foreground">
-                    <c.icon size={16} />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-bold text-foreground">{c.label}</span>
-                    <span className="block truncate text-xs text-muted">{c.value}</span>
-                  </span>
-                  {c.href ? (
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-foreground transition-all duration-300 group-hover:rotate-45 group-hover:bg-gold group-hover:text-black">
-                      <ArrowUpRight size={14} />
-                    </span>
-                  ) : null}
-                </>
-              );
-              const cls =
-                "contact-fade group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-3 pr-4 transition-colors duration-300";
-              return (
-                <li key={c.label}>
-                  {c.href ? (
-                    <a
-                      href={c.href}
-                      target={c.href.startsWith("http") ? "_blank" : undefined}
-                      rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className={cls + " hover:border-gold-line"}
-                    >
-                      {inner}
-                    </a>
-                  ) : (
-                    <div className={cls}>{inner}</div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
         </div>
 
-        <form
-          onSubmit={onSubmit}
-          className="contact-fade flex h-fit flex-col gap-4 rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-white/[0.01] p-4 sm:p-6 lg:mt-24"
-        >
-          {[
-            { name: "name", label: "Name", type: "text", placeholder: "Your name", auto: "name" },
-            { name: "email", label: "Email", type: "email", placeholder: "you@email.com", auto: "email" },
-          ].map((f) => (
-            <label key={f.name} className="block rounded-2xl border border-white/10 bg-[#131313] px-4 py-3 transition-colors focus-within:border-gold-line">
-              <span className="block text-xs font-bold text-foreground">{f.label}</span>
-              <input
-                name={f.name}
-                type={f.type}
-                required
-                autoComplete={f.auto}
-                placeholder={f.placeholder}
-                className="mt-1.5 w-full bg-transparent text-sm text-foreground placeholder:text-muted-2 focus:outline-none"
-              />
-            </label>
-          ))}
-          <label className="block rounded-2xl border border-white/10 bg-[#131313] px-4 py-3 transition-colors focus-within:border-gold-line">
-            <span className="block text-xs font-bold text-foreground">Message</span>
-            <textarea
-              name="message"
-              required
-              rows={7}
-              placeholder="Tell me about your project…"
-              className="mt-1.5 w-full resize-none bg-transparent text-sm text-foreground placeholder:text-muted-2 focus:outline-none"
-            />
-          </label>
-          <button
-            type="submit"
-            className="group mt-2 flex items-center justify-center gap-2 rounded-2xl bg-foreground py-4 text-sm font-bold text-black transition-colors duration-300 hover:bg-gold"
-          >
-            {sent ? "Opening your mail app…" : "Send message"}
-            <ArrowUpRight size={15} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </button>
-        </form>
+        <ul className="flex w-full max-w-xl flex-col gap-3 lg:mt-24 lg:justify-self-end">
+          {channels.map((c) => {
+            const inner = (
+              <>
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-foreground">
+                  <c.icon size={16} />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-bold text-foreground">{c.label}</span>
+                  <span className="block truncate text-xs text-muted">{c.value}</span>
+                </span>
+                {c.href ? (
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-foreground transition-all duration-300 group-hover:rotate-45 group-hover:bg-gold group-hover:text-black">
+                    <ArrowUpRight size={14} />
+                  </span>
+                ) : null}
+              </>
+            );
+            const cls =
+              "contact-fade group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-3 pr-4 transition-colors duration-300";
+            return (
+              <li key={c.label}>
+                {c.href ? (
+                  <a
+                    href={c.href}
+                    target={c.href.startsWith("http") ? "_blank" : undefined}
+                    rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    className={cls + " hover:border-gold-line"}
+                  >
+                    {inner}
+                  </a>
+                ) : (
+                  <div className={cls}>{inner}</div>
+                )}
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );

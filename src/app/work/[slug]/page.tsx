@@ -115,10 +115,14 @@ export default async function ProjectPage({
                   ? "Still building this one. I'll add links once it's live."
                   : "This was client work, so I can't share the code or a public demo."}
           </p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <SocialLink href={project.liveUrl}>Live demo</SocialLink>
-            <SocialLink href={project.repoUrl}>Source code</SocialLink>
-          </div>
+          {/* Disabled "soon" buttons only make sense for work that will get
+              links; private client/employer work just gets the note above. */}
+          {project.repoUrl || project.liveUrl || project.status ? (
+            <div className="mt-4 flex flex-wrap gap-3">
+              <SocialLink href={project.liveUrl}>Live demo</SocialLink>
+              <SocialLink href={project.repoUrl}>Source code</SocialLink>
+            </div>
+          ) : null}
         </div>
       </Container>
     </main>
