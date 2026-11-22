@@ -15,28 +15,28 @@ const services = [
     icon: Code2,
     area: "Frontend",
     title: "Frontend Engineering",
-    body: "Responsive, production-ready interfaces with clean component architecture and predictable state.",
+    body: "Interfaces that work on any screen, built from small reusable components with state that's easy to follow.",
     tags: ["React", "Redux Toolkit", "React Query"],
   },
   {
     icon: Server,
     area: "Backend",
     title: "Backend & APIs",
-    body: "RESTful services with real authentication and fine-grained, role-based authorization.",
+    body: "REST APIs with proper login and permissions, so every user only sees what they're meant to.",
     tags: ["Node.js", "Express", "FastAPI", "JWT / RBAC"],
   },
   {
     icon: Database,
     area: "Data",
     title: "Data & Databases",
-    body: "Schemas that model the business properly — constraints, indexes and type-safe access.",
+    body: "Database schemas that match how the business actually works, with constraints and indexes where they count.",
     tags: ["PostgreSQL", "MongoDB", "Prisma"],
   },
   {
     icon: Layers,
     area: "Systems",
     title: "Async & Infrastructure",
-    body: "Background workers and queues for heavy jobs, tested and containerised for deployment.",
+    body: "Slow, heavy jobs go to background queues so the app stays quick. Then it all gets tested and shipped in Docker.",
     tags: ["BullMQ", "Redis", "Celery", "Docker", "Jest"],
   },
 ];
@@ -132,11 +132,11 @@ export function Expertise() {
             </span>
           </h2>
           <p className="mt-8 max-w-md text-2xl leading-snug text-foreground/90">
-            I design and build systems where <b className="font-bold text-gold">interface, API and data</b> work as one.
+            I like working on the whole thing: <b className="font-bold text-gold">the UI, the API and the database</b>.
           </p>
           <p className="mt-6 max-w-md text-sm leading-relaxed text-muted">
-            From the first React component to the background worker that processes a bulk upload, I like owning the
-            whole path a request takes — and making every layer of it reliable.
+            I&apos;m happiest when I can follow a feature all the way through, from the button someone clicks to the
+            worker that handles their upload, and fix whatever breaks along the way.
           </p>
           <ul className="mt-8 flex max-w-md flex-wrap gap-2">
             {techStack.map((t) => (

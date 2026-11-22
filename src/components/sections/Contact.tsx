@@ -56,7 +56,7 @@ export function Contact() {
     const email = String(data.get("email") || "").trim();
     const message = String(data.get("message") || "").trim();
     const subject = encodeURIComponent(`Portfolio enquiry from ${name || "a visitor"}`);
-    const body = encodeURIComponent(`${message}\n\n— ${name}${email ? ` (${email})` : ""}`);
+    const body = encodeURIComponent(`${message}\n\nThanks,\n${name}${email ? ` (${email})` : ""}`);
     window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
     setSent(true);
   }
@@ -88,8 +88,8 @@ export function Contact() {
             </span>
           </h2>
           <p className="contact-fade mt-6 max-w-md text-base leading-relaxed text-muted">
-            Have a product in mind, a hard engineering problem, or a role you think I&apos;d fit? I&apos;d love to hear
-            about it.
+            Got an idea, a tricky problem, or a role you think I&apos;d be good for? Send me a message and I&apos;ll
+            get back to you.
           </p>
 
           <ul className="mt-10 flex max-w-md flex-col gap-3">

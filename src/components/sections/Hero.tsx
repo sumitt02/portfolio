@@ -94,7 +94,7 @@ export function Hero() {
 
       <div className="hero-inner flex flex-1 flex-col items-center justify-center px-4 pt-24 pb-40 sm:pb-36">
         <h1 className="sr-only">
-          {profile.name} — Full-Stack Developer
+          {profile.name}, Full-Stack Developer
         </h1>
         <div
           aria-hidden
@@ -145,7 +145,7 @@ export function Hero() {
         </a>
 
         <div className="hero-fade flex flex-col items-center gap-3">
-          <Link href="/#contact" aria-label="Let's work together — go to contact" data-cursor-label="Hi!">
+          <Link href="/#contact" aria-label="Get in touch" data-cursor-label="Hi!">
             <RotatingBadge text="LET'S WORK TOGETHER • LET'S WORK • " size={96} />
           </Link>
           <span className="text-[10px] font-bold uppercase tracking-[0.18em] sm:text-[11px]">

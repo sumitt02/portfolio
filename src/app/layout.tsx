@@ -6,6 +6,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { Cursor } from "@/components/motion/Cursor";
+import { preloaderSkipScript } from "@/lib/preloader";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -32,11 +33,11 @@ const signature = Mrs_Saint_Delafield({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Sumit Singh — Full-Stack Developer | SDE-1",
+    default: "Sumit Singh | Full-Stack Developer",
     template: "%s · Sumit Singh",
   },
   description:
-    "Sumit Singh is a full-stack developer (SDE-1) building production web applications and enterprise systems with React, Node.js, PostgreSQL, and scalable backend architecture.",
+    "Sumit Singh is a full-stack developer (SDE-1) in Delhi. He builds web apps with React, Node.js and PostgreSQL, and is currently working on an enterprise CRM at PanScience Innovation.",
   keywords: [
     "Sumit Singh",
     "Full-Stack Developer",
@@ -51,17 +52,17 @@ export const metadata: Metadata = {
   creator: "Sumit Singh",
   openGraph: {
     type: "website",
-    title: "Sumit Singh — Full-Stack Developer | SDE-1",
+    title: "Sumit Singh | Full-Stack Developer",
     description:
-      "Full-stack developer building production web applications, scalable APIs, and enterprise systems across React, Node.js, and PostgreSQL.",
+      "I'm Sumit, a full-stack developer in Delhi. I build web apps with React, Node.js and PostgreSQL.",
     siteName: "Sumit Singh",
     url: "/",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sumit Singh — Full-Stack Developer | SDE-1",
+    title: "Sumit Singh | Full-Stack Developer",
     description:
-      "Full-stack developer building production web applications, scalable APIs, and enterprise systems.",
+      "I'm Sumit, a full-stack developer in Delhi. I build web apps with React, Node.js and PostgreSQL.",
   },
   icons: {
     icon: "/icon.svg",
@@ -79,6 +80,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${manrope.variable} ${anton.variable} ${signature.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: preloaderSkipScript }} />
+      </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <SmoothScroll />
         <Cursor />

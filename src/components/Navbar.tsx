@@ -29,7 +29,7 @@ export function Navbar() {
           aria-label="Primary"
           className="pointer-events-auto mx-auto flex h-20 items-center justify-between px-5 sm:px-10"
         >
-          <Link href="/#top" className="font-script text-4xl leading-none" aria-label={`${profile.name} — home`}>
+          <Link href="/#top" className="font-script text-4xl leading-none" aria-label={`${profile.name}, home`}>
             {profile.name.split(" ")[0]}
           </Link>
 

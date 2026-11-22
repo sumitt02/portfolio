@@ -69,21 +69,20 @@ export const experience: ExperienceItem[] = [
   {
     company: "PanScience Innovation",
     role: "SDE-1",
-    period: "May 2026 — Present",
+    period: "May 2026 to now",
     flagship: true,
     summary:
-      "Building a large-scale, role-based enterprise CRM end-to-end — from data model to production deployment.",
+      "I'm building a large enterprise CRM here, from the database design all the way to deployment.",
     bullets: [
-      "Building a large-scale role-based enterprise CRM end-to-end",
-      "React + Redux frontend",
-      "Node.js / Express backend with RESTful APIs",
-      "Prisma + PostgreSQL data layer",
-      "JWT and Azure AD authentication",
-      "Fine-grained role-based access control (RBAC)",
-      "Async background workers with BullMQ / Redis",
-      "Bulk Excel data pipelines",
-      "Swagger-documented APIs",
-      "Jest unit and integration testing with 95%+ coverage",
+      "React and Redux on the front end",
+      "REST APIs in Node.js and Express",
+      "PostgreSQL through Prisma for the data",
+      "Sign in with JWT and Azure AD",
+      "Detailed permissions for every role (RBAC)",
+      "Background jobs with BullMQ and Redis",
+      "Bulk Excel imports and exports",
+      "API docs in Swagger",
+      "Unit and integration tests in Jest, over 95% coverage",
     ],
     stack: [
       "React",
@@ -105,16 +104,15 @@ export const experience: ExperienceItem[] = [
     role: "IT Intern",
     period: "Summer 2025",
     summary:
-      "Built React UI components for an internal weather dashboard rendering live meteorological data.",
+      "Built React components for an internal dashboard that shows live weather data.",
     bullets: [
-      "Built React UI components for an internal weather dashboard",
-      "Rendered live meteorological data",
-      "Integrated frontend with backend APIs",
-      "Worked through design → implementation → code review → deployment",
-      "Debugged backend API issues across Express and React",
-      "Traced UI symptoms to API/database root causes",
-      "Worked under Agile sprint deadlines",
-      "Participated in daily standups and PR reviews",
+      "Built React components for the internal weather dashboard",
+      "Displayed live weather data coming in from the backend",
+      "Connected the frontend to the backend APIs",
+      "Took features from design through code review to release",
+      "Fixed API bugs on both the Express and React side",
+      "Tracked down UI bugs to their real cause in the API or database",
+      "Worked in Agile sprints with daily standups and PR reviews",
     ],
     stack: ["React", "Express", "REST APIs"],
   },
@@ -122,8 +120,8 @@ export const experience: ExperienceItem[] = [
     company: "Fonada",
     role: "IT Intern",
     period: "Summer 2024",
-    summary: "Backend and API development and debugging.",
-    bullets: ["Backend and API development", "API debugging and issue resolution"],
+    summary: "Worked on backend services and APIs, and spent a lot of time debugging them.",
+    bullets: ["Built and maintained backend APIs", "Found and fixed API issues"],
     stack: ["Backend", "APIs"],
   },
 ];
@@ -163,9 +161,9 @@ export const projects: Project[] = [
     kind: "Full-Stack",
     visual: "crm",
     oneLiner:
-      "A large-scale, role-based CRM built for production use — from schema to background workers.",
+      "A big role-based CRM I'm building at work, from the database to the background workers.",
     description:
-      "A large-scale role-based enterprise CRM currently being built at PanScience Innovation. The system spans a React + Redux frontend, a Node.js/Express API layer, a Prisma/PostgreSQL data model, and asynchronous background processing for bulk operations — with authentication, authorization, and testing treated as first-class concerns rather than afterthoughts.",
+      "I'm building this enterprise CRM at PanScience Innovation. It has a React and Redux frontend, a Node.js and Express API, a PostgreSQL database accessed through Prisma, and background workers that take care of bulk jobs. Login, permissions and tests were planned in from day one instead of being bolted on at the end.",
     stack: [
       "React",
       "Redux",
@@ -199,9 +197,9 @@ export const projects: Project[] = [
     year: "April 2026",
     kind: "Full-Stack · AI",
     visual: "screener",
-    oneLiner: "A two-sided SaaS for recruiters and candidates with parallel resume processing.",
+    oneLiner: "A hiring tool where recruiters upload resumes in bulk and get each one scored against the job.",
     description:
-      "A two-sided SaaS platform for recruiters and candidates. Recruiters bulk-upload PDF resumes, which are processed in parallel by Celery workers and scored against job requirements using the OpenAI API, then reviewed side-by-side in a comparison dashboard.",
+      "A SaaS app with one side for recruiters and one for candidates. Recruiters drop in a stack of PDF resumes at once, Celery workers go through them in parallel, the OpenAI API scores each one against the job, and the results sit side by side so they're easy to compare.",
     stack: ["FastAPI", "React", "PostgreSQL", "Celery", "OpenAI API"],
     highlights: [
       { label: "Product", detail: "Two-sided SaaS for recruiters and candidates" },
@@ -227,9 +225,9 @@ export const projects: Project[] = [
     year: "2025",
     kind: "Full-Stack",
     visual: "clinic",
-    oneLiner: "Role-based clinic workflow for receptionists and doctors, with live token queuing.",
+    oneLiner: "Software for a clinic's front desk and its doctors, with a live token queue.",
     description:
-      "A role-based clinic management system with separate authentication flows and dashboards for doctors and receptionists — covering patient registration, live-updating token queues, billing, and patient records behind protected, validated APIs.",
+      "A clinic management system with separate logins and dashboards for doctors and receptionists. It handles patient registration, a token queue that updates live, billing and patient records, all behind protected APIs with proper form validation.",
     stack: ["React", "Node.js", "Express", "MongoDB", "JWT"],
     highlights: [
       { label: "Roles", detail: "Doctor and Receptionist roles, separate auth flows" },
@@ -258,7 +256,7 @@ export const projects: Project[] = [
     oneLiner:
       "The frontend of a consumer app for one of India's largest TV service providers.",
     description:
-      "Built the frontend of a consumer-facing app for a major Indian TV service provider (client name withheld) — the interface its subscribers use every day.",
+      "I built the frontend of the app that subscribers of a major Indian TV provider use every day. I can't name the client here.",
     stack: ["Frontend", "Consumer App"],
     highlights: [
       { label: "Client", detail: "Major Indian TV service provider (name withheld)" },
@@ -276,9 +274,9 @@ export const projects: Project[] = [
     status: "In progress",
     visual: "photo",
     oneLiner:
-      "A mobile app and website for a photography company — currently in the making.",
+      "A mobile app and website for a photography company. Still in the works.",
     description:
-      "Currently building a mobile app and a companion website for a photography company. The website showcases the studio's work to new clients, while the mobile app gives customers a dedicated experience on their phones.",
+      "I'm building a mobile app and a website for a photography company. The website shows off the studio's work to new clients, and the app is for their customers to use on their phones.",
     stack: ["Mobile App", "Website"],
     highlights: [
       { label: "Client", detail: "Photography company" },
@@ -309,7 +307,7 @@ export const principles = [
   },
   {
     title: "Ship and iterate",
-    body: "Design → Build → Test → Review → Deploy → Improve.",
+    body: "Design, build, test, review, ship, then make it better.",
   },
 ];
 
@@ -403,7 +401,7 @@ export const skills: SkillCategory[] = [
 export const education = {
   degree: "B.Tech, Computer Science & Engineering (IoT)",
   school: "Manipal University, Jaipur",
-  period: "Sept 2022 — Jun 2026",
+  period: "Sept 2022 to Jun 2026",
 };
 
 export const certifications = [

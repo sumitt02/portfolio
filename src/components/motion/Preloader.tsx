@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { PRELOADER_SEEN_KEY as SEEN_KEY } from "@/lib/preloader";
 
-const SEEN_KEY = "preloader-seen";
 
 /** Fires once the intro is out of the way (immediately if it was skipped). */
 export function onIntroDone(cb: () => void) {
@@ -21,9 +21,6 @@ function finish() {
   window.dispatchEvent(new Event("intro:done"));
 }
 
-// Runs before first paint so returning visitors (same tab session) and
-// reduced-motion users never see a flash of the loader.
-const skipScript = `try{if(sessionStorage.getItem('${SEEN_KEY}')||matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.dataset.loader='skip'}}catch(e){}`;
 
 /**
  * Gold percentage counter + ring that draws as it "loads", then a handwritten
@@ -40,7 +37,14 @@ export function Preloader() {
     const el = root.current;
     if (!el) return;
     // Already hidden by CSS before paint; just release anything waiting on it.
-    if (document.documentElement.dataset.loader === "skip") {
+    // The skip script in the layout only runs on a full page load, so on client-side
+    // navigation back to "/" we also check the session flag here.
+    let seen = false;
+    try {
+      seen = !!sessionStorage.getItem(SEEN_KEY);
+    } catch {}
+    if (seen || document.documentElement.dataset.loader === "skip") {
+      document.documentElement.dataset.loader = "skip";
       finish();
       return;
     }
@@ -57,6 +61,9 @@ export function Preloader() {
         try {
           sessionStorage.setItem(SEEN_KEY, "1");
         } catch {}
+        // Keeps the loader hidden (via CSS, before paint) if the homepage
+        // remounts later in this tab, e.g. coming back from a project page.
+        document.documentElement.dataset.loader = "skip";
         document.body.style.overflow = "";
         lenis?.start();
         setGone(true);
@@ -96,40 +103,37 @@ export function Preloader() {
   if (gone) return null;
 
   return (
-    <>
-      <script dangerouslySetInnerHTML={{ __html: skipScript }} />
-      <div
-        ref={root}
-        aria-hidden
-        className="fixed inset-0 z-[90] flex items-center justify-center bg-night text-gold [[data-loader=skip]_&]:hidden"
-      >
-        <div className="pl-counter flex flex-col items-center gap-6">
-          <span ref={count} className="font-display text-7xl leading-none sm:text-8xl">
-            0%
-          </span>
-          <svg width="104" height="104" viewBox="0 0 104 104" className="-rotate-90">
-            <circle cx="52" cy="52" r="46" fill="none" stroke="currentColor" strokeOpacity="0.15" strokeWidth="10" />
-            <circle
-              ref={ring}
-              cx="52"
-              cy="52"
-              r="46"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="10"
-              strokeLinecap="round"
-              strokeDasharray={2 * Math.PI * 46}
-              strokeDashoffset={2 * Math.PI * 46}
-            />
-          </svg>
-        </div>
-        <span
-          ref={hello}
-          className="invisible absolute inset-0 flex items-center justify-center font-script text-[22vw] leading-none sm:text-[12rem]"
-        >
-          hello
+    <div
+      ref={root}
+      aria-hidden
+      className="fixed inset-0 z-[90] flex items-center justify-center bg-night text-gold [[data-loader=skip]_&]:hidden"
+    >
+      <div className="pl-counter flex flex-col items-center gap-6">
+        <span ref={count} className="font-display text-7xl leading-none sm:text-8xl">
+          0%
         </span>
+        <svg width="104" height="104" viewBox="0 0 104 104" className="-rotate-90">
+          <circle cx="52" cy="52" r="46" fill="none" stroke="currentColor" strokeOpacity="0.15" strokeWidth="10" />
+          <circle
+            ref={ring}
+            cx="52"
+            cy="52"
+            r="46"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="10"
+            strokeLinecap="round"
+            strokeDasharray={2 * Math.PI * 46}
+            strokeDashoffset={2 * Math.PI * 46}
+          />
+        </svg>
       </div>
-    </>
+      <span
+        ref={hello}
+        className="invisible absolute inset-0 flex items-center justify-center font-script text-[22vw] leading-none sm:text-[12rem]"
+      >
+        hello
+      </span>
+    </div>
   );
 }

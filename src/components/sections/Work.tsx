@@ -37,7 +37,9 @@ export function Work() {
         },
       );
 
-      gsap.utils.toArray<HTMLElement>(".drip").forEach((d) => {
+      // The drips run forever through the #goo SVG filter, which re-renders
+      // every frame — so only let them run while the splash is on screen.
+      const drips = gsap.utils.toArray<HTMLElement>(".drip").map((d) =>
         gsap.fromTo(
           d,
           { y: 0, scale: 1 },
@@ -49,28 +51,35 @@ export function Work() {
             repeat: -1,
             delay: Number(d.dataset.delay),
             repeatDelay: 0.4,
+            paused: true,
           },
-        );
+        ),
+      );
+      ScrollTrigger.create({
+        trigger: ".work-word",
+        start: "top bottom",
+        end: "bottom top",
+        onToggle: (self) => drips.forEach((t) => (self.isActive ? t.resume() : t.pause())),
       });
 
       // Stacked cards (desktop only — on phones a card is taller than the
       // screen, so pinning it would hide its lower half): each one shrinks
-      // back as the next slides over it.
+      // back and dims as the next slides over it. The dimming fades a black
+      // overlay rather than animating `filter: brightness()`, which forced the
+      // GPU to re-filter several huge layers every frame and could make the
+      // screen flash black mid-scroll.
       gsap.matchMedia().add("(min-width: 1024px)", () => {
         const cards = gsap.utils.toArray<HTMLElement>(".work-card");
         cards.forEach((card, i) => {
           if (i === cards.length - 1) return;
-          gsap.to(card, {
-            scale: 0.9,
-            filter: "brightness(0.45)",
-            ease: "none",
-            scrollTrigger: {
-              trigger: cards[i + 1],
-              start: "top bottom",
-              end: "top 12%",
-              scrub: true,
-            },
-          });
+          const scrollTrigger = {
+            trigger: cards[i + 1],
+            start: "top bottom",
+            end: "top 12%",
+            scrub: true,
+          };
+          gsap.to(card, { scale: 0.9, ease: "none", scrollTrigger });
+          gsap.to(card.querySelector(".work-shade"), { opacity: 0.55, ease: "none", scrollTrigger });
         });
       });
     },
@@ -204,6 +213,9 @@ export function Work() {
                   <ProjectMockup visual={p.visual} />
                 </div>
               </div>
+
+              {/* dims the card as the next one stacks over it (see useGSAP) */}
+              <span aria-hidden className="work-shade pointer-events-none absolute inset-0 z-20 bg-black opacity-0" />
             </Link>
           </div>
         ))}

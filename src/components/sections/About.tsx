@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -12,11 +13,9 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 // Headline split into [text, highlighted] pairs so gold words stay data-driven.
 const headline: [string, boolean][] = [
   ["I build", false],
-  ["production software", true],
-  ["from", false],
-  ["interface", true],
-  ["to", false],
-  ["infrastructure.", true],
+  ["web apps", true],
+  ["and the", false],
+  ["systems behind them.", true],
 ];
 
 const stats = [
@@ -97,23 +96,27 @@ export function About() {
         </div>
 
         <div className="about-body mt-14 grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,0.42fr)_minmax(0,1fr)] lg:gap-16">
-          {/* Identity card — a typographic stand-in for a portrait */}
+          {/* Identity card: cut-out portrait over a soft gold glow */}
           <div
             className="about-fade group relative aspect-[4/5] self-start overflow-hidden lg:sticky lg:top-28 rounded-2xl border border-white/10 bg-gradient-to-b from-[#161410] to-black grain"
             data-cursor-label="Hey"
           >
-            <span
+            <div
               aria-hidden
-              className="absolute inset-0 flex items-center justify-center font-display text-[13rem] leading-none text-transparent transition-transform duration-700 ease-out [-webkit-text-stroke:1.5px_var(--gold)] group-hover:scale-110 sm:text-[16rem]"
-            >
-              SS
-            </span>
-            <span
+              className="absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(201,178,124,0.22),transparent_62%)]"
+            />
+            <Image
+              src="/sumit-portrait.png"
+              alt={`Portrait of ${profile.name}`}
+              width={1116}
+              height={1216}
+              sizes="(min-width: 1024px) 520px, 100vw"
+              className="absolute inset-x-0 bottom-0 h-auto w-full origin-bottom transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            />
+            <div
               aria-hidden
-              className="absolute inset-0 flex items-center justify-center font-display text-[13rem] leading-none text-gold opacity-0 transition-all duration-700 [clip-path:inset(100%_0_0_0)] group-hover:opacity-100 group-hover:[clip-path:inset(0_0_0_0)] sm:text-[16rem]"
-            >
-              SS
-            </span>
+              className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black via-black/70 to-transparent"
+            />
             <div className="absolute left-5 top-5 text-lg font-bold uppercase tracking-wide text-foreground">
               {profile.name}
             </div>
@@ -127,8 +130,9 @@ export function About() {
                 aria-hidden
                 className="absolute rounded-full border border-gold-line bg-black/70 px-3 py-1 text-[11px] font-semibold text-gold opacity-0 backdrop-blur transition-all duration-500 group-hover:opacity-100"
                 style={{
-                  left: `${[10, 58, 6, 62, 34][i]}%`,
-                  top: `${[22, 30, 62, 68, 82][i]}%`,
+                  // kept to the sides so they don't cover the face
+                  left: `${[5, 70, 4, 72, 6][i]}%`,
+                  top: `${[24, 30, 48, 56, 70][i]}%`,
                   transitionDelay: `${i * 60}ms`,
                   transform: `translateY(${i % 2 ? 12 : -12}px)`,
                 }}
@@ -154,13 +158,14 @@ export function About() {
 
             <div className="mt-8 grid grid-cols-1 gap-6 text-sm leading-relaxed text-muted md:grid-cols-2 md:gap-10">
               <p className="about-fade">
-                I&apos;m <span className="text-gold">{profile.name.split(" ")[0]}</span> — a full-stack
-                developer who cares about what happens after the demo: authentication, authorization,
-                data integrity, and code that survives contact with real usage.
+                I&apos;m <span className="text-gold">{profile.name.split(" ")[0]}</span>, a full-stack
+                developer from Delhi. I enjoy the parts people tend to skip once the demo works: logins and
+                permissions, clean data, and code that doesn&apos;t fall over when real users show up.
               </p>
               <p className="about-fade">
-                I move between React interfaces, Node.js and Python services, and PostgreSQL / MongoDB
-                data models — and push heavy work onto background queues so the request path stays fast.
+                Day to day I write React on the front end and Node.js or Python on the back end, with
+                PostgreSQL or MongoDB underneath. When something gets slow, I usually move it to a background
+                queue so the app stays snappy.
               </p>
             </div>
 

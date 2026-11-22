@@ -108,12 +108,12 @@ export default async function ProjectPage({
         <div className="mt-14 rounded-2xl border border-border bg-surface p-6 sm:p-8">
           <p className="text-sm leading-relaxed text-muted">
             {project.repoUrl || project.liveUrl
-              ? "Links below."
+              ? "Have a look:"
               : project.flagship
-                ? "This is a production system built for an employer and isn't publicly hosted, so there's no public repo or live demo to link to."
+                ? "I built this at work, so the code and the app aren't public."
                 : project.status
-                  ? "This project is still being built — links will follow once it launches."
-                  : "This was client work, so there's no public repo or live demo to link to."}
+                  ? "Still building this one. I'll add links once it's live."
+                  : "This was client work, so I can't share the code or a public demo."}
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <SocialLink href={project.liveUrl}>Live demo</SocialLink>
